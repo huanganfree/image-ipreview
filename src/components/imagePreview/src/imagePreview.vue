@@ -13,12 +13,17 @@
 </template>
 
 <script>
+import { addEvent, removeEvent } from '../../../utils/domEvent.js';
 export default {
   name: 'image-preview',
   props: {
     url: {
       type: String,
       default: ''
+    },
+    closeOnPressEscape: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -26,7 +31,20 @@ export default {
       isShowImg: false
     };
   },
-  methods: {}
+  mounted() {
+    this.closeOnPressEscape && addEvent(window, 'keyup', this.handleEscape);
+  },
+  beforeDestroy() {
+    removeEvent(window, 'keyup');
+  },
+  methods: {
+    handleEscape(e) {
+      const key = e.which || e.keyCode;
+      if (key === 27) {
+        this.isShowImg = false;
+      }
+    }
+  }
 };
 </script>
 
