@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "vue-eslint-parser",
+  "extends": "elemefe", // 使用element配置规则
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module", 
+    "ecmaFeatures": {
+      "jsx": true  
+    }
+  }
+}

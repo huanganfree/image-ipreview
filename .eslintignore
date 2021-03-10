@@ -1,0 +1,10 @@
+examples/play
+*.sh
+node_modules
+lib
+coverage
+public
+*.md
+*.scss
+*.woff
+*.ttf
