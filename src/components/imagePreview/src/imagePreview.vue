@@ -5,7 +5,7 @@
       <div class="preview-modal">
         <div class="preview-header" @click="isShowImg = false">x</div>
         <div class="preview-modal-body">
-          <img :src="url" />
+          <img ref="imgDom" :src="url" @mousedown="handleMouseDown" @mouseup="handleMouseUp" :style="mouseMoveStyle"/>
         </div>
       </div>
     </div>
@@ -28,14 +28,31 @@ export default {
   },
   data() {
     return {
-      isShowImg: false
+      isShowImg: false,
+      imageX: 0,
+      imageY: 0,
+      isPress: false
     };
   },
-  mounted() {
-    this.closeOnPressEscape && addEvent(window, 'keyup', this.handleEscape);
+  watch: {
+    closeOnPressEscape: {
+      handler(newVal) {
+        if (newVal) {
+          addEvent(window, 'keyup', this.handleEscape);
+        } else {
+          removeEvent(window, 'keyup');
+        }
+      },
+      immediate: true
+    }
   },
   beforeDestroy() {
     removeEvent(window, 'keyup');
+  },
+  computed: {
+    mouseMoveStyle() {
+      return { position: 'absolute', top: -this.imageY + 'px', left: -this.imageX + 'px' };
+    }
   },
   methods: {
     handleEscape(e) {
@@ -43,6 +60,27 @@ export default {
       if (key === 27) {
         this.isShowImg = false;
       }
+    },
+    handleMouseDown() {
+      this.isPress = true;
+      this.$refs.imgDom.onmousemove = e => {
+        const imgDomLeft = this.$refs.imgDom.getBoundingClientRect().left;
+        const imgDomTop = this.$refs.imgDom.getBoundingClientRect().top;
+        const x = e.pageX;
+        const y = e.pageY;
+        console.log(x, imgDomLeft);
+        this.handleMouseMove({imgDomLeft, imgDomTop, x, y});
+      };
+    },
+    handleMouseMove({ imgDomLeft, imgDomTop, x, y }) {
+      console.log(x - imgDomLeft);
+      this.imageX = x - imgDomLeft ;
+      this.imageY = y - imgDomTop;
+    },
+    handleMouseUp() {
+      this.isPress = false;
+      this.$refs.imgDom.onmousemove = null;
+      this.imageX = this.imageY = 0;
     }
   }
 };
@@ -69,12 +107,14 @@ export default {
     padding: 20px;
     .preview-header {
       position: absolute;
-      top: 10px;
-      right: 20px;
+      top: 1px;
+      right: 7px;
       font-size: 24px;
       cursor: pointer;
     }
     .preview-modal-body {
+      position: relative;
+      height: 50vh;
       img {
         width: 100%;
       }

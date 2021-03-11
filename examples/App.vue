@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <image-preview :url="require('./assets/logo.png')" close-on-press-escape></image-preview>
+    <image-preview :url="require('./assets/logo.png')" ></image-preview>
   </div>
 </template>
 
