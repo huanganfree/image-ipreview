@@ -2,11 +2,11 @@
   "name": "@xc/image-preview",
   "version": "0.1.0",
   "private": false,
-  "author": "xc-jack",
-  "description": "A image plugin for Vue.js.",
+  "author": "xc-ha",
+  "description": "A image preview plugin for Vue.js.",
   "main": "lib/vueImagePreviewLib.umd.min.js",
   "files": [
-    "dist",
+    "lib",
     "src"
   ],
   "scripts": {

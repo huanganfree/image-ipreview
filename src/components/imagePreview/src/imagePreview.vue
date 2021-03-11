@@ -2,10 +2,10 @@
   <div v-if="url">
     <img :src="url" @click="isShowImg = true" />
     <div class="preview-modal-wrapper" v-show="isShowImg">
-      <div class="preview-modal">
+      <div  class="preview-modal">
         <div class="preview-header" @click="isShowImg = false">x</div>
         <div class="preview-modal-body">
-          <img ref="imgDom" :src="url" @mousedown="handleMouseDown" @mouseup="handleMouseUp" :style="mouseMoveStyle"/>
+          <img :src="url" />
         </div>
       </div>
     </div>
@@ -28,10 +28,7 @@ export default {
   },
   data() {
     return {
-      isShowImg: false,
-      imageX: 0,
-      imageY: 0,
-      isPress: false
+      isShowImg: false
     };
   },
   watch: {
@@ -50,9 +47,6 @@ export default {
     removeEvent(window, 'keyup');
   },
   computed: {
-    mouseMoveStyle() {
-      return { position: 'absolute', top: -this.imageY + 'px', left: -this.imageX + 'px' };
-    }
   },
   methods: {
     handleEscape(e) {
@@ -62,25 +56,10 @@ export default {
       }
     },
     handleMouseDown() {
-      this.isPress = true;
-      this.$refs.imgDom.onmousemove = e => {
-        const imgDomLeft = this.$refs.imgDom.getBoundingClientRect().left;
-        const imgDomTop = this.$refs.imgDom.getBoundingClientRect().top;
-        const x = e.pageX;
-        const y = e.pageY;
-        console.log(x, imgDomLeft);
-        this.handleMouseMove({imgDomLeft, imgDomTop, x, y});
-      };
     },
-    handleMouseMove({ imgDomLeft, imgDomTop, x, y }) {
-      console.log(x - imgDomLeft);
-      this.imageX = x - imgDomLeft ;
-      this.imageY = y - imgDomTop;
+    handleMouseMove() {
     },
     handleMouseUp() {
-      this.isPress = false;
-      this.$refs.imgDom.onmousemove = null;
-      this.imageX = this.imageY = 0;
     }
   }
 };
@@ -113,8 +92,6 @@ export default {
       cursor: pointer;
     }
     .preview-modal-body {
-      position: relative;
-      height: 50vh;
       img {
         width: 100%;
       }

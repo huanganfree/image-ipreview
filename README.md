@@ -1,24 +1,16 @@
 # @xc/image-preview
-
-## Project setup
+一款基于vue的轻量图片预览插件
+## 安装
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+npm install image-preview 
 ```
 
-### Compiles and minifies for production
+### 用法
+```
+向url prop传入图片路径
+```
+
+### 效果
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
