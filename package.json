@@ -1,10 +1,10 @@
 {
-  "name": "@xc/image-preview",
+  "name": "image-preview-vue-else",
   "version": "0.1.0",
   "private": false,
   "author": "xc-ha",
   "description": "A image preview plugin for Vue.js.",
-  "main": "lib/vueImagePreviewLib.umd.min.js",
+  "main": "lib/vue-image-preview.umd.min.js",
   "files": [
     "lib",
     "src"
@@ -15,7 +15,7 @@
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name vue-image-preview --dest lib ./src/index.js"
   },
-  "dependencies": {
+  "peerDependencies": {
     "core-js": "^3.6.5",
     "vue": "^2.6.12"
   },

@@ -5,7 +5,7 @@
       <div  class="preview-modal">
         <div class="preview-header" @click="isShowImg = false">x</div>
         <div class="preview-modal-body">
-          <img :src="url" />
+          <img :src="url" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp" ref="image"/>
         </div>
       </div>
     </div>
@@ -55,11 +55,23 @@ export default {
         this.isShowImg = false;
       }
     },
+    // 鼠标按下
     handleMouseDown() {
+      this.isPress = true;
+      this.imageOffset = {
+        left: this.$refs.image.offsetLeft,
+        top: this.$refs.image.offsetTop
+      };
     },
-    handleMouseMove() {
+    // 鼠标移动
+    handleMouseMove(e) {
+      if (this.isPress) {
+        console.log(e.pageX - this.imageOffset.left);
+      }
     },
+    // 鼠标弹起
     handleMouseUp() {
+      this.isPress = false;
     }
   }
 };
@@ -77,19 +89,17 @@ export default {
   background: rgba(16, 15, 15, 0.4);
   z-index: 1000;
   .preview-modal {
-    position: relative;
     margin: 0 auto 50px;
     margin-top: 20vh;
     width: 50vw;
     background: #fff;
     border-radius: 2px;
     padding: 20px;
+    position: relative;
     .preview-header {
-      position: absolute;
-      top: 1px;
-      right: 7px;
       font-size: 24px;
       cursor: pointer;
+      text-align: right;
     }
     .preview-modal-body {
       img {
