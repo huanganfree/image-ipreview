@@ -31,35 +31,20 @@ export default {
       isShowImg: false
     };
   },
-  watch: {
-    closeOnPressEscape: {
-      handler(newVal) {
-        if (newVal) {
-          addEvent(window, 'keyup', this.handleEscape);
-        } else {
-          removeEvent(window, 'keyup');
-        }
-      },
-      immediate: true
-    }
+  mounted() {
+    // 挂载后，绑定
+    addEvent(window, 'keyup', this.handleEscape);
   },
   beforeDestroy() {
     removeEvent(window, 'keyup');
   },
-  computed: {
-  },
   methods: {
     handleEscape(e) {
+      if (!this.closeOnPressEscape) return;
       const key = e.which || e.keyCode;
       if (key === 27) {
         this.isShowImg = false;
       }
-    },
-    handleMouseDown() {
-    },
-    handleMouseMove() {
-    },
-    handleMouseUp() {
     }
   }
 };
