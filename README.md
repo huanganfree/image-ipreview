@@ -1,13 +1,14 @@
-# image-preview
+# image-ipreview
 一款基于vue的轻量图片预览插件
-## 安装
+### 安装
 ```
-npm install image-preview 
+npm install image-ipreview 
 ```
 ### 用法
 ```
-import image-preview from 'image-preview'
-import 'image-preview/lib/vue-image-preview.css'
+import ImageIpreview from 'image-ipreview';
+import 'image-ipreview/lib/image-ipreview.css';
+Vue.use(ImageIpreview);
 
 ```
 ### 选项
