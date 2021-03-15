@@ -5,7 +5,7 @@
       <div  class="preview-modal">
         <div class="preview-header" @click="isShowImg = false">x</div>
         <div class="preview-modal-body">
-          <img :src="url" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @mouseup="handleMouseUp" ref="image"/>
+          <img :src="url" />
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@ export default {
     },
     closeOnPressEscape: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data() {
@@ -36,7 +36,7 @@ export default {
     addEvent(window, 'keyup', this.handleEscape);
   },
   beforeDestroy() {
-    removeEvent(window, 'keyup');
+    removeEvent(window, 'keyup', this.handleEscape);
   },
   methods: {
     handleEscape(e) {
