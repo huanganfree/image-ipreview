@@ -2,10 +2,11 @@
   <div v-if="url">
     <img :src="url" @click="isShowImg = true" />
     <div class="preview-modal-wrapper" v-show="isShowImg">
-      <div  class="preview-modal">
-        <div class="preview-header" @click="isShowImg = false">x</div>
-        <div class="preview-modal-body">
-          <img :src="url" />
+      <div class="preview-modal">
+        <div class="preview-header"><span @click="isShowImg = false">x</span></div>
+        <div class="preview-modal-body" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
+        <div class="preview-toolbar" v-if="isShowToolBar">
+          <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url"/>
         </div>
       </div>
     </div>
@@ -14,8 +15,12 @@
 
 <script>
 import { addEvent, removeEvent } from '../../../utils/domEvent.js';
+import ToolBar from './toolBar';
 export default {
   name: 'image-preview',
+  components: {
+    ToolBar
+  },
   props: {
     url: {
       type: String,
@@ -24,17 +29,22 @@ export default {
     closeOnPressEscape: {
       type: Boolean,
       default: true
+    },
+    isShowToolBar: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
-      isShowImg: false
+      isShowImg: false,
+      bgSize: 50, // 背景图片默认大小
+      degree: 0
     };
   },
   mounted() {
     // 挂载后，绑定
     addEvent(window, 'keyup', this.handleEscape);
-
   },
   beforeDestroy() {
     removeEvent(window, 'keyup', this.handleEscape);
@@ -46,12 +56,20 @@ export default {
       if (key === 27) {
         this.isShowImg = false;
       }
+    },
+    handleZoom(num) {
+      this.bgSize += num;
+    },
+    handleSpin(num) {
+      this.degree += num;
+      if (this.degree >= 360) this.degree = 0;
     }
   }
 };
 </script>
 
 <style scoped lang="less">
+@import '../../../style/icon.css';
 .preview-modal-wrapper {
   position: fixed;
   top: 0;
@@ -72,13 +90,18 @@ export default {
     position: relative;
     .preview-header {
       font-size: 24px;
-      cursor: pointer;
       text-align: right;
+      span{
+        cursor: pointer;
+      }
     }
     .preview-modal-body {
-      img {
-        width: 100%;
-      }
+      height: 60vh;
+    }
+    .preview-toolbar{
+      position: absolute;
+      top: 0;
+      right: -20px;
     }
   }
 }

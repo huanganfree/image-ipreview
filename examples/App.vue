@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <image-preview :url="require('./assets/logo.png')" ></image-preview>
+    <image-preview :url="require('./assets/1212.png')" ></image-preview>
   </div>
 </template>
 
