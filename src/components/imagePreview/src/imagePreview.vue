@@ -34,6 +34,7 @@ export default {
   mounted() {
     // 挂载后，绑定
     addEvent(window, 'keyup', this.handleEscape);
+
   },
   beforeDestroy() {
     removeEvent(window, 'keyup', this.handleEscape);
