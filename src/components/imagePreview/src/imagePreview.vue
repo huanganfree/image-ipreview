@@ -58,6 +58,7 @@ export default {
       }
     },
     handleZoom(num) {
+      if (this.bgSize <= 15 && num < 0) return;
       this.bgSize += num;
     },
     handleSpin(num) {
