@@ -1,4 +1,4 @@
-import ImagePrview from './src/imagePreview.vue';
+import ImagePrview from './src/index.vue';
 
 // eslint-disable-next-line func-names
 ImagePrview.install = function(Vue) {
