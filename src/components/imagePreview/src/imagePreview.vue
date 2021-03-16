@@ -6,7 +6,7 @@
         <div class="preview-header"><span @click="isShowImg = false">x</span></div>
         <div class="preview-modal-body" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
         <div class="preview-toolbar" v-if="isShowToolBar">
-          <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url"/>
+          <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="false"/>
         </div>
       </div>
     </div>
