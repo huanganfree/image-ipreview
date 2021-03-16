@@ -1,13 +1,10 @@
 <template>
-  <div v-if="url">
-    <img :src="url" @click="isShowImg = true" />
-    <div class="preview-modal-wrapper" v-show="isShowImg">
-      <div class="preview-modal">
-        <div class="preview-header"><span @click="isShowImg = false">x</span></div>
-        <div class="preview-modal-body" ref="image" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
-        <div class="preview-toolbar" v-if="isShowToolBar">
-          <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="true"/>
-        </div>
+  <div class="preview-modal-wrapper">
+    <div class="preview-modal">
+      <div class="preview-header"><span @click="$emit('close')">x</span></div>
+      <div class="preview-modal-body" ref="image" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
+      <div class="preview-toolbar" v-if="isShowToolBar">
+        <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="true"/>
       </div>
     </div>
   </div>
@@ -17,10 +14,11 @@
 import { addEvent, removeEvent } from '../../../utils/domEvent.js';
 import ToolBar from './toolBar';
 export default {
-  name: 'image-preview',
+  name: 'preview',
   components: {
     ToolBar
   },
+  inject: ['childProp'],
   props: {
     url: {
       type: String,
@@ -33,11 +31,14 @@ export default {
     isShowToolBar: {
       type: Boolean,
       default: true
+    },
+    isMouseWheel: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      isShowImg: false,
       bgSize: 50, // 背景图片默认大小
       degree: 0
     };
@@ -50,9 +51,12 @@ export default {
   },
   beforeDestroy() {
     removeEvent(window, 'keyup', this.handleEscape);
+    removeEvent(this.$refs.image, 'mousewheel', this.handleMousewheel);
   },
   methods: {
+    // 鼠标滚轮缩放
     handleMousewheel(e) {
+      if (!this.isMouseWheel) return;
       const delta = e.wheelDelta;
       const data = {
         '120': 15,
@@ -60,14 +64,15 @@ export default {
       };
       this.handleZoom(data[delta]);
     },
+    // esc键退出图片预览
     handleEscape(e) {
       if (!this.closeOnPressEscape) return;
       const key = e.which || e.keyCode;
       if (key === 27) {
-        this.isShowImg = false;
+        this.$emit('close');
       }
     },
-    // 图片缩放
+    // 点击缩放
     handleZoom(num) {
       num = window.parseFloat(num);
       if ((this.bgSize <= 15 && num < 0) || (this.bgSize >= 230 && num > 0)) return;

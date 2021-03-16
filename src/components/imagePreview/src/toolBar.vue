@@ -19,6 +19,10 @@ export default {
     isDownload: {
       type: Boolean,
       default: true
+    },
+    downloadName: {
+      type: String,
+      default: '下载图片'
     }
   },
   data() {
@@ -26,8 +30,9 @@ export default {
   },
   computed: {
     getImgName() {
-      let imgName = strSplit(strSplit(this.imgUrl, '/')[2], '.')[0];
-      return imgName;
+      const arr = strSplit(this.imgUrl, '/');
+      let imgName = strSplit(arr[arr.length - 1], '.')[0];
+      return (imgName || this.downloadName);
     }
   },
   components: {},
