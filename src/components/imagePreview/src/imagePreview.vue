@@ -4,7 +4,7 @@
     <div class="preview-modal-wrapper" v-show="isShowImg">
       <div class="preview-modal">
         <div class="preview-header"><span @click="isShowImg = false">x</span></div>
-        <div class="preview-modal-body" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
+        <div class="preview-modal-body" ref="image" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
         <div class="preview-toolbar" v-if="isShowToolBar">
           <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="true"/>
         </div>
@@ -45,11 +45,21 @@ export default {
   mounted() {
     // 挂载后，绑定
     addEvent(window, 'keyup', this.handleEscape);
+    // 鼠标滚动：120向前滚动，-120向后滚动
+    addEvent(this.$refs.image, 'mousewheel', this.handleMousewheel);
   },
   beforeDestroy() {
     removeEvent(window, 'keyup', this.handleEscape);
   },
   methods: {
+    handleMousewheel(e) {
+      const delta = e.wheelDelta;
+      const data = {
+        '120': 15,
+        '-120': -15
+      };
+      this.handleZoom(data[delta]);
+    },
     handleEscape(e) {
       if (!this.closeOnPressEscape) return;
       const key = e.which || e.keyCode;
@@ -57,10 +67,13 @@ export default {
         this.isShowImg = false;
       }
     },
+    // 图片缩放
     handleZoom(num) {
-      if (this.bgSize <= 15 && num < 0) return;
+      num = window.parseFloat(num);
+      if ((this.bgSize <= 15 && num < 0) || (this.bgSize >= 230 && num > 0)) return;
       this.bgSize += num;
     },
+    // 图片旋转
     handleSpin(num) {
       this.degree += num;
       if (this.degree >= 360) this.degree = 0;
