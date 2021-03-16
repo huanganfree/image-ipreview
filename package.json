@@ -1,13 +1,12 @@
 {
   "name": "image-ipreview",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": false,
   "author": "xc",
   "description": "A image preview plugin for Vue.js.",
   "main": "lib/image-ipreview.umd.min.js",
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -19,9 +18,13 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.12"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/weban/vue-plug-in.git"
+  },
   "keywords": [
     "image",
-    "vue",
+    "photo",
     "photo-preview",
     "preview",
     "图片预览"

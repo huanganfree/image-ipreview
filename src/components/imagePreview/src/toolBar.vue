@@ -48,7 +48,7 @@ a{
 }
 li, a{
     color: #ddd;
-    font-size: 20px;
+    font-size: 23px;
     font-weight: bold;
     margin: 10px 0;
     cursor: pointer;

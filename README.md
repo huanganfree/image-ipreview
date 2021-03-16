@@ -1,5 +1,5 @@
 # image-ipreview
-一款基于vue2.x的轻量图片预览插件。
+一款基于vue2.x的桌面端轻量图片预览插件。
 
 （欢迎大家使用~，我会持续迭代）
 
@@ -27,6 +27,6 @@ Vue.use(ImageIpreview);
 
 ### 效果
 
-![44](./examples/assets/44.jpg)
+![image](https://gitee.com/weban/vue-plug-in/raw/master/examples/assets/44.jpg)
 
 
