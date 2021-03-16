@@ -1,6 +1,6 @@
 {
   "name": "image-ipreview",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "private": false,
   "author": "xc",
   "description": "A image preview plugin for Vue.js.",
