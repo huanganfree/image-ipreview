@@ -6,6 +6,8 @@
             :closeOnPressEscape="closeOnPressEscape"
             :isShowToolBar="isShowToolBar"
             :isMouseWheel="isMouseWheel"
+            :downloadName="downloadName"
+            :isDownload="isDownload"
             v-if="isShowImg"
             @close="isShowImg = false"
         />
@@ -16,9 +18,9 @@
 import Preview from './preview';
 export default {
   name: 'image-preview',
-  provide: {
-    childProp: this
-  },
+  // provide: {
+  //   childProp: this
+  // },
   props: {
     url: {
       type: String,
@@ -35,6 +37,14 @@ export default {
     isMouseWheel: {
       type: Boolean,
       default: false
+    },
+    downloadName: {
+      type: String,
+      default: '下载图片'
+    },
+    isDownload: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -45,20 +55,10 @@ export default {
   components: {
     Preview
   },
-  created() {
-
-  },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     handleShowPreview() {
       this.isShowImg = true;
-      this.$nextTick(() => {
-        this.provide = {
-          childProp: this
-        };
-      });
     }
   }
 };

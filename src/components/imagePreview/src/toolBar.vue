@@ -30,9 +30,10 @@ export default {
   },
   computed: {
     getImgName() {
+      if (this.downloadName) return this.downloadName;
       const arr = strSplit(this.imgUrl, '/');
       let imgName = strSplit(arr[arr.length - 1], '.')[0];
-      return (imgName || this.downloadName);
+      return imgName;
     }
   },
   components: {},

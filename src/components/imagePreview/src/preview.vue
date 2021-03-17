@@ -4,7 +4,7 @@
       <div class="preview-header"><span @click="$emit('close')">x</span></div>
       <div class="preview-modal-body" ref="image" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
       <div class="preview-toolbar" v-if="isShowToolBar">
-        <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="true"/>
+        <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="isDownload" :downloadName="downloadName"/>
       </div>
     </div>
   </div>
@@ -18,7 +18,6 @@ export default {
   components: {
     ToolBar
   },
-  inject: ['childProp'],
   props: {
     url: {
       type: String,
@@ -35,7 +34,12 @@ export default {
     isMouseWheel: {
       type: Boolean,
       default: false
-    }
+    },
+    isDownload: {
+      type: Boolean,
+      default: true
+    },
+    downloadName: String
   },
   data() {
     return {
@@ -58,11 +62,13 @@ export default {
     handleMousewheel(e) {
       if (!this.isMouseWheel) return;
       const delta = e.wheelDelta;
-      const data = {
-        '120': 15,
-        '-120': -15
-      };
-      this.handleZoom(data[delta]);
+      const degree = delta < 0 ? 15 : -15;
+      // 这里写死了
+      // const data = {
+      //   '120': 15,
+      //   '-120': -15
+      // };
+      this.handleZoom(degree);
     },
     // esc键退出图片预览
     handleEscape(e) {
