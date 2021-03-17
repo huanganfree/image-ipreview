@@ -3,7 +3,7 @@
     <li class="iconfont narrow" @click="$emit('zoom', -15)">&#xe683;</li>
     <li class="iconfont magnify" @click="$emit('zoom', 15)">&#xe684;</li>
     <li class="iconfont spin" @click="$emit('spin', 90)">&#xe741;</li>
-    <a class="iconfont download" :href="imgUrl" :download="getImgName" v-if="isDownload">&#xe66c;</a>
+    <a class="iconfont download" :href="childProp.url" :download="getImgName" v-if="childProp.isDownload">&#xe66c;</a>
   </ul>
 </template>
 
@@ -11,27 +11,14 @@
 import { strSplit } from '../../../utils/data-util.js';
 export default {
   name: 'tool-bar',
-  props: {
-    imgUrl: {
-      type: String,
-      default: ''
-    },
-    isDownload: {
-      type: Boolean,
-      default: true
-    },
-    downloadName: {
-      type: String,
-      default: '下载图片'
-    }
-  },
+  inject: ['childProp'],
   data() {
     return {};
   },
   computed: {
     getImgName() {
-      if (this.downloadName) return this.downloadName;
-      const arr = strSplit(this.imgUrl, '/');
+      if (this.childProp.downloadName) return this.childProp.downloadName;
+      const arr = strSplit(this.childProp.url, '/');
       let imgName = strSplit(arr[arr.length - 1], '.')[0];
       return imgName;
     }

@@ -2,9 +2,9 @@
   <div class="preview-modal-wrapper">
     <div class="preview-modal">
       <div class="preview-header"><span @click="$emit('close')">x</span></div>
-      <div class="preview-modal-body" ref="image" :style="{background: `url(${url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
-      <div class="preview-toolbar" v-if="isShowToolBar">
-        <tool-bar @zoom="handleZoom" @spin="handleSpin" :imgUrl="url" :isDownload="isDownload" :downloadName="downloadName"/>
+      <div class="preview-modal-body" ref="image" :style="{background: `url(${childProp.url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
+      <div class="preview-toolbar" v-if="childProp.isShowToolBar">
+        <tool-bar @zoom="handleZoom" @spin="handleSpin" />
       </div>
     </div>
   </div>
@@ -18,29 +18,7 @@ export default {
   components: {
     ToolBar
   },
-  props: {
-    url: {
-      type: String,
-      default: ''
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: true
-    },
-    isShowToolBar: {
-      type: Boolean,
-      default: true
-    },
-    isMouseWheel: {
-      type: Boolean,
-      default: false
-    },
-    isDownload: {
-      type: Boolean,
-      default: true
-    },
-    downloadName: String
-  },
+  inject: ['childProp'],
   data() {
     return {
       bgSize: 50, // 背景图片默认大小
@@ -60,19 +38,14 @@ export default {
   methods: {
     // 鼠标滚轮缩放
     handleMousewheel(e) {
-      if (!this.isMouseWheel) return;
+      if (!this.childProp.isMouseWheel) return;
       const delta = e.wheelDelta;
       const degree = delta < 0 ? 15 : -15;
-      // 这里写死了
-      // const data = {
-      //   '120': 15,
-      //   '-120': -15
-      // };
       this.handleZoom(degree);
     },
     // esc键退出图片预览
     handleEscape(e) {
-      if (!this.closeOnPressEscape) return;
+      if (!this.childProp.closeOnPressEscape) return;
       const key = e.which || e.keyCode;
       if (key === 27) {
         this.$emit('close');

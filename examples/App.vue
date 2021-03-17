@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <image-preview :url="require('./assets/logo.png')" :isMouseWheel="false" :isShowToolBar="true" :downloadName="'sdfsfs'"></image-preview>
+    <image-preview
+     :url="require('./assets/logo.png')"
+     :isMouseWheel="true"
+     :isShowToolBar="true"
+     :closeOnPressEscape="true"
+     :isDownload="true"
+     downloadName="haha"
+    />
   </div>
 </template>
 

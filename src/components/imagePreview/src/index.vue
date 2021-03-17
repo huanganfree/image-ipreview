@@ -2,14 +2,8 @@
     <div>
         <img :src="url" @click="handleShowPreview" />
         <Preview
-            :url="url"
-            :closeOnPressEscape="closeOnPressEscape"
-            :isShowToolBar="isShowToolBar"
-            :isMouseWheel="isMouseWheel"
-            :downloadName="downloadName"
-            :isDownload="isDownload"
-            v-if="isShowImg"
-            @close="isShowImg = false"
+          v-if="isShowImg"
+          @close="isShowImg = false"
         />
     </div>
 </template>
@@ -18,9 +12,13 @@
 import Preview from './preview';
 export default {
   name: 'image-preview',
-  // provide: {
-  //   childProp: this
-  // },
+  // 避免传入多个prop
+  provide() {
+    // 返回一个对象？
+    return {
+      'childProp': this
+    };
+  },
   props: {
     url: {
       type: String,
