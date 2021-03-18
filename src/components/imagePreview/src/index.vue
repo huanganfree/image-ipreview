@@ -1,17 +1,17 @@
 <template>
     <div>
-        <img :src="url" @click="handleShowPreview" />
-        <Preview
-          v-if="isShowImg"
-          @close="isShowImg = false"
-        />
+      <img :src="url" @click="handleShowPreview" />
+      <Preview
+        v-if="isShowImg"
+        @close="isShowImg = false"
+      />
     </div>
 </template>
 
 <script>
 import Preview from './preview';
 export default {
-  name: 'image-preview',
+  name: 'image-ipreview',
   // 避免传入多个prop
   provide() {
     // 返回一个对象？

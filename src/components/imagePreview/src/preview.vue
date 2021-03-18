@@ -89,6 +89,8 @@ export default {
     .preview-header {
       font-size: 24px;
       text-align: right;
+      color: #4c4c4c;
+      font-weight: 500;
       span{
         cursor: pointer;
       }

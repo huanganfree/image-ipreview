@@ -1,12 +1,11 @@
 <template>
   <div id="app">
-    <image-preview
+    <image-ipreview
      :url="require('./assets/logo.png')"
      :isMouseWheel="true"
      :isShowToolBar="true"
      :closeOnPressEscape="true"
      :isDownload="true"
-     downloadName="haha"
     />
   </div>
 </template>

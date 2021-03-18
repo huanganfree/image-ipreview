@@ -16,6 +16,21 @@ import ImageIpreview from 'image-ipreview';
 import 'image-ipreview/lib/image-ipreview.css';
 Vue.use(ImageIpreview);
 
+// 组件中使用
+...
+<template>
+  <div id="app">
+    <image-ipreview
+     :url="require('./assets/logo.png')"
+     :isMouseWheel="true"
+     :isShowToolBar="true"
+     :closeOnPressEscape="true"
+     :isDownload="true"
+     downloadName="haha"
+    />
+  </div>
+</template>
+...
 ```
 ### 配置
 
