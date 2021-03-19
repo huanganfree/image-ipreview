@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { strSplit } from '../../../utils/data-util.js';
+// import { strSplit } from '../../../utils/data-util.js';
 export default {
   name: 'tool-bar',
   inject: ['childProp'],
@@ -18,9 +18,9 @@ export default {
   computed: {
     getImgName() {
       if (this.childProp.downloadName) return this.childProp.downloadName;
-      const arr = strSplit(this.childProp.url, '/');
-      let imgName = strSplit(arr[arr.length - 1], '.')[0];
-      return imgName;
+      // const arr = strSplit(this.childProp.url, '/');
+      // let imgName = strSplit(arr[arr.length - 1], '.')[0];
+      // return imgName;
     }
   },
   components: {},
