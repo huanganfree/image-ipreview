@@ -14,7 +14,6 @@ export default {
   name: 'image-ipreview',
   // 避免传入多个prop
   provide() {
-    // 返回一个对象？
     return {
       'childProp': this
     };
@@ -53,7 +52,6 @@ export default {
   components: {
     Preview
   },
-  mounted() {},
   methods: {
     handleShowPreview() {
       this.isShowImg = true;

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   pages: {
     index: {
@@ -11,6 +13,14 @@ module.exports = {
       // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
       title: 'vue图片预览组件'
     }
+  },
+  configureWebpack: config => {
+    config.resolve.alias = Object.assign(config.resolve.alias,
+      {
+        '@src': path.resolve(__dirname, './src/'),
+        '@utils': path.resolve(__dirname, './src/utils/')
+        // '~entry': path.resolve(__dirname, './src/index.js') // 注意：这个不能省略
+      });
   }
 }
 ;

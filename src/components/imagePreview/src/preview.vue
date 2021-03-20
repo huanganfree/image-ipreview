@@ -2,7 +2,7 @@
   <div class="preview-modal-wrapper">
     <div class="preview-modal">
       <div class="preview-header"><span @click="$emit('close')">x</span></div>
-      <div class="preview-modal-body" ref="image" :style="{background: `url(${childProp.url}) no-repeat center/${bgSize}%`, transform: `rotate(${degree}deg)`}" />
+      <div class="preview-modal-body" ref="image" :style="bgStyle" />
       <div class="preview-toolbar" v-if="childProp.isShowToolBar">
         <tool-bar @zoom="handleZoom" @spin="handleSpin" />
       </div>
@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import { addEvent, removeEvent } from '../../../utils/domEvent.js';
+import { addEvent, removeEvent } from '@utils/dom-event.js';
+import { throttle } from '@utils/debounce-throttle.js';
 import ToolBar from './toolBar';
 export default {
   name: 'preview',
@@ -22,18 +23,24 @@ export default {
   data() {
     return {
       bgSize: 50, // 背景图片默认大小
-      degree: 0
+      degree: 0 // 图片初始角度
     };
+  },
+  computed: {
+    bgStyle() {
+      return {background: `url(${this.childProp.url}) no-repeat center/${this.bgSize}%`, transform: `rotate(${this.degree}deg)`};
+    }
   },
   mounted() {
     // 挂载后，绑定
     addEvent(window, 'keyup', this.handleEscape);
-    // 鼠标滚动：120向前滚动，-120向后滚动
-    addEvent(this.$refs.image, 'mousewheel', this.handleMousewheel);
+    // 鼠标滚动：+向前滚动，-向后滚动
+    this.throttleMousewheel = throttle(this.handleMousewheel, 60);
+    addEvent(this.$refs.image, 'mousewheel', this.throttleMousewheel);
   },
   beforeDestroy() {
     removeEvent(window, 'keyup', this.handleEscape);
-    removeEvent(this.$refs.image, 'mousewheel', this.handleMousewheel);
+    removeEvent(this.$refs.image, 'mousewheel', this.throttleMousewheel);
   },
   methods: {
     // 鼠标滚轮缩放

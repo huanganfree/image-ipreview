@@ -1,4 +1,4 @@
 export const strSplit = function(str, type) {
-  if (!type) return str;
+  if (!type || !str) return str;
   return str.split(type);
 };
