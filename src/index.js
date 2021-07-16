@@ -11,7 +11,7 @@ const install = function(Vue) {
   });
 };
 
-if (typeof window !== 'undefined' && window.Vue) {
+if (typeof window !== 'undefined' && window.Vue) { // 原生script tag引入方式
   install(window.Vue);
 }
 
