@@ -8,4 +8,5 @@ public
 *.scss
 *.woff
 *.ttf
-iconfont.*
+# 忽略字体文件
+iconfont.* 
