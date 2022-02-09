@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     handleShowPreview() {
-      debugger;
       this.isShowImg = true;
       console.log('sdfs');
     }
