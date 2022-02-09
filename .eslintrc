@@ -3,7 +3,7 @@
     "browser": true,
     "node": true
   },
-  "parser": "vue-eslint-parser",
+  "parser": "vue-eslint-parser", // 解析器
   "extends": "elemefe", // 使用element配置规则
   "parserOptions": {
     "ecmaVersion": 6,
@@ -13,6 +13,6 @@
     }
   },
   "rules": {
-    "no-debugger": "off"
+    "no-debugger": "warn"
   }
 }

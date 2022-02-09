@@ -1,11 +1,8 @@
 <template>
-    <div>
-      <img :src="url" @click="handleShowPreview" />
-      <Preview
-        v-if="isShowImg"
-        @close="isShowImg = false"
-      />
-    </div>
+  <div>
+    <img :src="url" @click="handleShowPreview" />
+    <Preview v-if="isShowImg" @close="isShowImg = false" />
+  </div>
 </template>
 
 <script>
@@ -15,7 +12,7 @@ export default {
   // 避免传入多个prop
   provide() {
     return {
-      'childProp': this
+      childProp: this
     };
   },
   props: {
@@ -54,6 +51,7 @@ export default {
   },
   methods: {
     handleShowPreview() {
+      debugger;
       this.isShowImg = true;
     }
   }
