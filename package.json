@@ -34,6 +34,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "chalk": "^4.1.2",
     "eslint": "^6.8.0",
     "eslint-config-elemefe": "^0.3.0",
     "eslint-plugin-vue": "^6.2.2",
@@ -46,7 +47,8 @@
   "license": "MIT",
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "FORCE_COLOR=1 node scripts/check-commitMsg.js"
     }
   },
   "lint-staged": {
