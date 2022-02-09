@@ -10,3 +10,5 @@ public
 *.ttf
 # 忽略字体文件
 iconfont.* 
+
+# husky v4.2.3 功能正常   v7.0.4好像不太行
