@@ -61,6 +61,7 @@ export default {
     // 点击缩放
     handleZoom(num) {
       num = window.parseFloat(num);
+      debugger;
       if ((this.bgSize <= 15 && num < 0) || (this.bgSize >= 230 && num > 0)) return;
       this.bgSize += num;
     },

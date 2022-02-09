@@ -46,13 +46,7 @@
   "license": "MIT",
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "eslint --ext .js,.vue src"
     }
-  },
-  "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ]
   }
 }

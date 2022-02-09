@@ -52,7 +52,6 @@ export default {
   methods: {
     handleShowPreview() {
       this.isShowImg = true;
-      debugger;
     }
   }
 };
