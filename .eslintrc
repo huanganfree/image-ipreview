@@ -13,6 +13,6 @@
     }
   },
   "rules": {
-    "no-debugger": "warn"
+    "no-debugger": "error"
   }
 }
