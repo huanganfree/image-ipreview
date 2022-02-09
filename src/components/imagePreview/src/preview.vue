@@ -61,13 +61,14 @@ export default {
     // 点击缩放
     handleZoom(num) {
       num = window.parseFloat(num);
+      debugger;
+
       if ((this.bgSize <= 15 && num < 0) || (this.bgSize >= 230 && num > 0)) return;
       this.bgSize += num;
     },
     // 图片旋转
     handleSpin(num) {
       this.degree += num;
-      debugger;
       if (this.degree >= 360) this.degree = 0;
     }
   }
