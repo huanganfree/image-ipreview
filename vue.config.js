@@ -21,6 +21,8 @@ module.exports = {
         '@utils': path.resolve(__dirname, './src/utils/')
         // '~entry': path.resolve(__dirname, './src/index.js') // 注意：这个不能省略
       });
+  },
+  devServer: {
+    hot: true
   }
-}
-;
+};

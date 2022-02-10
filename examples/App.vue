@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <image-ipreview
-     :url="require('./assets/logo.png')"
+     :url="require('./assets/demo.jpeg')"
      :isMouseWheel="true"
      :isShowToolBar="true"
      :closeOnPressEscape="true"
-     :isDownload="true"
+     style="width: 300px;"
     />
   </div>
 </template>
@@ -18,12 +18,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
