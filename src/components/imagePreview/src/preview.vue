@@ -1,11 +1,9 @@
 <template>
-  <div class="preview-modal-wrapper">
-    <div class="preview-modal">
-      <div class="preview-header"><span @click="$emit('close')">x</span></div>
-      <div class="preview-modal-body" ref="image" :style="bgStyle" />
-      <div class="preview-toolbar" v-if="childProp.isShowToolBar">
-        <tool-bar @zoom="handleZoom" @spin="handleSpin" />
-      </div>
+  <div class="ha-image-preview_content" @mousewheel="handleMousewheel">
+    <div class="iconfont ha-image-preview_close" @click.stop="$emit('close')">&#xe724;</div>
+    <img :src="childProp.url" alt="" :style="bgStyle"/>
+    <div class="ha-image-preview_toolbar" v-if="childProp.isShowToolBar">
+      <tool-bar @zoom="handleZoom" @spin="handleSpin" @scale-to-original="handleRecoverScale" />
     </div>
   </div>
 </template>
@@ -22,19 +20,21 @@ export default {
   inject: ['childProp'],
   data() {
     return {
-      bgSize: 50, // 背景图片默认大小
+      imgSize: 1, // 图片默认大小
       degree: 0 // 图片初始角度
     };
   },
   computed: {
     bgStyle() {
-      return {background: `url(${this.childProp.url}) no-repeat center/${this.bgSize}%`, transform: `rotate(${this.degree}deg)`};
+      return {
+        transform: `scale(${this.imgSize}) rotate(${this.degree}deg)`
+      };
     }
   },
   mounted() {
     // 挂载后，绑定
     addEvent(window, 'keyup', this.handleEscape);
-    // 鼠标滚动：+向前滚动，-向后滚动
+    // 鼠标滚动：+ 向前滚动，- 向后滚动
     this.throttleMousewheel = throttle(this.handleMousewheel, 60);
     addEvent(this.$refs.image, 'mousewheel', this.throttleMousewheel);
   },
@@ -47,7 +47,7 @@ export default {
     handleMousewheel(e) {
       if (!this.childProp.isMouseWheel) return;
       const delta = e.wheelDelta;
-      const degree = delta < 0 ? 15 : -15;
+      const degree = delta < 0 ? 0.21 : -0.21;
       this.handleZoom(degree);
     },
     // esc键退出图片预览
@@ -61,55 +61,49 @@ export default {
     // 点击缩放
     handleZoom(num) {
       num = window.parseFloat(num);
-      if ((this.bgSize <= 15 && num < 0) || (this.bgSize >= 230 && num > 0)) return;
-      this.bgSize += num;
+      if (((this.imgSize + num) < 0 && num < 0)) {
+        return;
+      }
+      this.imgSize += num;
     },
     // 图片旋转
     handleSpin(num) {
       this.degree += num;
-      if (this.degree >= 360) this.degree = 0;
+    },
+    // 恢复原有尺寸
+    handleRecoverScale() {
+      this.imgSize = 1; // 图片默认大小
+      this.degree = 0; // 图片初始角度
     }
   }
 };
 </script>
 
 <style scoped lang="less">
-@import '../../../style/icon.css';
-.preview-modal-wrapper {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0;
-  overflow: auto;
-  background: rgba(16, 15, 15, 0.4);
-  z-index: 1000;
-  .preview-modal {
-    margin: 0 auto 50px;
-    margin-top: 20vh;
-    width: 50vw;
-    background: #fff;
-    border-radius: 2px;
-    padding: 20px;
-    position: relative;
-    .preview-header {
-      font-size: 24px;
-      text-align: right;
-      color: #4c4c4c;
-      font-weight: 500;
-      span{
-        cursor: pointer;
-      }
-    }
-    .preview-modal-body {
-      height: 60vh;
-    }
-    .preview-toolbar{
-      position: absolute;
-      top: 0;
-      right: -23px;
-    }
+.ha-image-preview_content {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  .ha-image-preview_close{
+    top: 1.0417vw;
+    right: 1.0417vw;
+    font-size: 35px;
+    color: #fff;
+    position: absolute;
+    z-index: 5;
+    cursor: pointer;
+  }
+  .ha-image-preview_toolbar{
+    position: absolute;
+    bottom: 2.6042vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  img {
+    height: 100%;
+    transition: transform 0.3s ease 0s;
   }
 }
 </style>

@@ -1,9 +1,10 @@
 <template>
-  <ul>
-    <li class="iconfont narrow" @click="$emit('zoom', -15)">&#xe683;</li>
-    <li class="iconfont magnify" @click="$emit('zoom', 15)">&#xe684;</li>
-    <li class="iconfont spin" @click="$emit('spin', 90)">&#xe741;</li>
-    <a class="iconfont download" :href="childProp.url" :download="getImgName" v-if="childProp.isDownload">&#xe66c;</a>
+  <ul @click.stop>
+    <li class="iconfont zoom-out" @click="$emit('zoom', -0.3)">&#xec13;</li>
+    <li class="iconfont zoom-in" @click="$emit('zoom', 0.3)">&#xec14;</li>
+    <li class="iconfont scale-to-original" @click="$emit('scale-to-original')">&#xe912;</li>
+    <li class="iconfont rotate-left" @click="$emit('spin', -90)">&#xe69a;</li>
+    <li class="iconfont rotate-right" @click="$emit('spin', 90)">&#xe69b;</li>
   </ul>
 </template>
 
@@ -35,15 +36,16 @@ ul,li{
 
 ul{
     padding-left: 12px;
-}
-a{
-    text-decoration: none;
-}
-li, a{
+    display: flex;
+    background-color: #606266;
     color: #ddd;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+li{
     font-size: 23px;
-    font-weight: bold;
-    margin: 10px 0;
+    padding:0 10px;
     cursor: pointer;
 }
 
