@@ -163,6 +163,7 @@ export default {
   }
   img {
     transition: transform 0.3s ease 0s;
+    cursor: move;
   }
 }
 </style>
