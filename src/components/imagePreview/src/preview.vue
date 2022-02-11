@@ -1,9 +1,26 @@
 <template>
-  <div class="ha-image-preview_content" @mousewheel="handleMousewheel">
-    <div class="iconfont ha-image-preview_close" @click.stop="$emit('close')">&#xe724;</div>
-    <img :src="childProp.url" alt="" :style="bgStyle"/>
+  <div class="ha-image-preview_content" @mousewheel.stop="handleMousewheel">
+    <div class="iconfont ha-image-preview_close" @click.stop="$emit('close')">
+      &#xe724;
+    </div>
+    <div class="ha-image-preview_viewer" @click.stop="handleClickBgToClose">
+      <img
+        :src="childProp.url"
+        alt=""
+        :style="previewImageStyle"
+        @mousedown.stop="handlePreviewImageMouseDown"
+        @mouseup.stop="handlePreviewImageMouseUp"
+        ref="previewImage"
+        draggable="false"
+      />
+    </div>
     <div class="ha-image-preview_toolbar" v-if="childProp.isShowToolBar">
-      <tool-bar @zoom="handleZoom" @spin="handleSpin" @scale-to-original="handleRecoverScale" />
+      <tool-bar
+        @zoom="handleZoom"
+        @spin="handleSpin"
+        @scale-to-onePercent="handleRecoverScale"
+        @original-size="handleOriginalSize"
+      />
     </div>
   </div>
 </template>
@@ -21,13 +38,19 @@ export default {
   data() {
     return {
       imgSize: 1, // 图片默认大小
-      degree: 0 // 图片初始角度
+      degree: 0, // 图片初始角度
+      heightValue: '100%',
+      marginLeft: 0,
+      marginTop: 0
     };
   },
   computed: {
-    bgStyle() {
+    previewImageStyle() { // 计算属性：一般用于style，class的绑定
       return {
-        transform: `scale(${this.imgSize}) rotate(${this.degree}deg)`
+        transform: `scale(${this.imgSize}) rotate(${this.degree}deg)`,
+        height: this.heightValue,
+        marginLeft: this.marginLeft,
+        marginTop: this.marginTop
       };
     }
   },
@@ -61,7 +84,7 @@ export default {
     // 点击缩放
     handleZoom(num) {
       num = window.parseFloat(num);
-      if (((this.imgSize + num) < 0 && num < 0)) {
+      if (this.imgSize + num < 0 && num < 0) {
         return;
       }
       this.imgSize += num;
@@ -70,10 +93,40 @@ export default {
     handleSpin(num) {
       this.degree += num;
     },
-    // 恢复原有尺寸
+    // 恢复1:1尺寸
     handleRecoverScale() {
       this.imgSize = 1; // 图片默认大小
       this.degree = 0; // 图片初始角度
+      this.heightValue = '100%';
+      this.marginTop = this.marginLeft = 0;
+    },
+    // 点击阴影蒙层，取消预览
+    handleClickBgToClose(e) {
+      if (e.target.classList.contains('ha-image-preview_viewer')) {
+        this.$emit('close');
+      }
+    },
+    // 恢复图片原有尺寸
+    handleOriginalSize() {
+      this.heightValue = '';
+      this.imgSize = 1; // 图片默认大小
+      this.degree = 0; // 图片初始角度
+      this.marginTop = this.marginLeft = 0;
+    },
+    // 预览图鼠标按下
+    handlePreviewImageMouseDown(e) {
+      this.clientX = e.clientX;
+      this.clientY = e.clientY;
+      this.$refs.previewImage.onmousemove = (e) => {
+        this.marginTop = e.clientY - this.clientY + parseFloat(this.marginTop) + 'px';
+        this.marginLeft = e.clientX - this.clientX + parseFloat(this.marginLeft) + 'px';
+        // 计算完一次外边距后，以最后一次的鼠标坐标为基准，进行下一次计算
+        this.clientX = e.clientX;
+        this.clientY = e.clientY;
+      };
+    },
+    handlePreviewImageMouseUp() {
+      this.$refs.previewImage.onmousemove = null;
     }
   }
 };
@@ -86,7 +139,14 @@ export default {
   width: 100%;
   height: 100%;
   text-align: center;
-  .ha-image-preview_close{
+  .ha-image-preview_viewer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .ha-image-preview_close {
     top: 1.0417vw;
     right: 1.0417vw;
     font-size: 35px;
@@ -95,14 +155,13 @@ export default {
     z-index: 5;
     cursor: pointer;
   }
-  .ha-image-preview_toolbar{
+  .ha-image-preview_toolbar {
     position: absolute;
     bottom: 2.6042vw;
     left: 50%;
     transform: translateX(-50%);
   }
   img {
-    height: 100%;
     transition: transform 0.3s ease 0s;
   }
 }
