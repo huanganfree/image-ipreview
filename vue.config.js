@@ -23,6 +23,7 @@ module.exports = {
       });
   },
   devServer: {
-    hot: true
+    hot: true,
+    port: 8080 // 可解决sockjs-node失效
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="ha-image-preview">
-    <img :src="url" alt="" @click="handleShowPreview" />
+    <img :src="url" alt="" @click.stop="handleShowPreview" />
     <transition name="slide-fade">
       <div v-if="isShowImg" class="ha-image-preview_wrapper">
         <div class="ha-image-preview_mask"></div>
@@ -23,7 +23,8 @@ export default {
   props: {
     url: {
       type: String,
-      default: ''
+      default: '',
+      required: true
     },
     closeOnPressEscape: {
       type: Boolean,
