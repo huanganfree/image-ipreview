@@ -4,9 +4,10 @@
 2.如有问题，请提issue，我会持续迭代。
 
 ### 特性
-      1.支持缩放，旋转，下载
+      1.支持缩放，旋转，原图查看等
       2.支持鼠标滚轮缩放
       3.自带节流机制，兼顾性能
+      4.支持鼠标拖动预览图查看
 ### 安装
 ```javascript
 npm install image-ipreview 
@@ -26,8 +27,6 @@ Vue.use(ImageIpreview);
      :isMouseWheel="true"
      :isShowToolBar="true"
      :closeOnPressEscape="true"
-     :isDownload="true"
-     downloadName="haha"
     />
   </div>
 </template>
@@ -35,18 +34,15 @@ Vue.use(ImageIpreview);
 ```
 ### 配置
 
-|       属性名       |  类型   |     描述      | 默认值 |
-| :----------------: | :-----: | :-----------: | :----: |
-|        url         | String  |   图片地址    |        |
-| closeOnPressEscape | Boolean | esc键关闭预览 |  true  |
-|   isShowToolBar    | Boolean |  是否展示工具栏   |  true  |
-|   isDownload    | Boolean |  是否展示下载图标   |  true  |
-|   downloadName    | String |  下载图片名称   |  下载图片  |
-|   isMouseWheel    | Boolean |  是否开启鼠标滚轮缩放   |  false  |
+|       属性名       |  类型   |     描述      | 是否必填 | 默认值 |
+| :----------------: | :-----: | :-----------: | :----: | ------ |
+|        url         | string  |   图片地址    | 是 |        |
+| closeOnPressEscape | boolean | esc键关闭预览 |  -  |  true  |
+|   isShowToolBar    | boolean |  是否展示工具栏   |  -  |  true  |
+|   isMouseWheel    | boolean |  是否开启鼠标滚轮缩放   |  -  |  false  |
 
 ### 效果
 
-![image](https://gitee.com/weban/vue-plug-in/raw/master/examples/assets/44.jpg)
-![image](https://gitee.com/weban/vue-plug-in/raw/master/examples/assets/1314.png)
+![image](https://gitee.com/weban/vue-plug-in/raw/master/examples/assets/demo.gif)
 
 
