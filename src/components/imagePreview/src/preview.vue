@@ -49,8 +49,8 @@ export default {
       return {
         transform: `scale(${this.imgSize}) rotate(${this.degree}deg)`,
         height: this.heightValue,
-        marginLeft: this.marginLeft,
-        marginTop: this.marginTop
+        marginLeft: this.marginLeft + 'px',
+        marginTop: this.marginTop + 'px'
       };
     }
   },
@@ -102,6 +102,7 @@ export default {
     },
     // 点击阴影蒙层，取消预览
     handleClickBgToClose(e) {
+      console.log(12);
       if (e.target.classList.contains('ha-image-preview_viewer')) {
         this.$emit('close');
       }
@@ -117,15 +118,16 @@ export default {
     handlePreviewImageMouseDown(e) {
       this.clientX = e.clientX;
       this.clientY = e.clientY;
-      this.$refs.previewImage.onmousemove = (e) => {
-        this.marginTop = e.clientY - this.clientY + parseFloat(this.marginTop) + 'px';
-        this.marginLeft = e.clientX - this.clientX + parseFloat(this.marginLeft) + 'px';
-        // 计算完一次外边距后，以最后一次的鼠标坐标为基准，进行下一次计算
-        this.clientX = e.clientX;
-        this.clientY = e.clientY;
+      const marginTop = this.marginTop; // 鼠标按下之时，记录当前图片的位置信息。
+      const marginLeft = this.marginLeft;
+      this.$refs.previewImage.onmousemove = (ev) => {
+        ev.stopPropagation();
+        this.marginTop = ev.clientY - this.clientY + marginTop;
+        this.marginLeft = ev.clientX - this.clientX + marginLeft;
       };
     },
-    handlePreviewImageMouseUp() {
+    handlePreviewImageMouseUp(e) {
+      e.stopPropagation();
       this.$refs.previewImage.onmousemove = null;
     }
   }

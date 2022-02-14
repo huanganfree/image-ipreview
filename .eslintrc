@@ -13,7 +13,7 @@
     }
   },
   "rules": {
-    "no-debugger": "error",
+    "no-debugger": "warn"
     // "no-multiple-empty-lines": ["error", { "max": 0}]
   }
 }
