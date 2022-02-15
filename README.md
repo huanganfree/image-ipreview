@@ -43,7 +43,9 @@ Vue.use(ImageIpreview);
 
 ### 效果
 
+
 ![image](https://github.com/huanganfree/image-ipreview/blob/master/examples/assets/ex1.png)
 ![image](https://github.com/huanganfree/image-ipreview/blob/master/examples/assets/ex2.png)
+![image](https://github.com/huanganfree/image-ipreview/blob/master/examples/assets/image.gif)
 
 
