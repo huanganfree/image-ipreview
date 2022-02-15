@@ -1,17 +1,25 @@
 <template>
-  <div class="ha-image-preview_content" @mousewheel.stop="handleMousewheel">
+  <div
+    class="ha-image-preview_content"
+    @mousewheel.stop="handleMousewheel"
+  >
     <div class="iconfont ha-image-preview_close" @click.stop="$emit('close')">
       &#xe724;
     </div>
-    <div class="ha-image-preview_viewer" @click.stop="handleClickBgToClose">
+    <div
+      class="ha-image-preview_viewer"
+      @mouseup.stop="handlePreviewViewerMouseUp"
+      @mousedown.stop="handlePreviewViewerMouseDown"
+      ref="preview_viewer"
+      draggable="false"
+    >
       <img
         :src="childProp.url"
         alt=""
         :style="previewImageStyle"
-        @mousedown.stop="handlePreviewImageMouseDown"
-        @mouseup.stop="handlePreviewImageMouseUp"
         ref="previewImage"
         draggable="false"
+        @mousedown="handlePreviewImageMouseDown"
       />
     </div>
     <div class="ha-image-preview_toolbar" v-if="childProp.isShowToolBar">
@@ -45,7 +53,8 @@ export default {
     };
   },
   computed: {
-    previewImageStyle() { // 计算属性：一般用于style，class的绑定
+    previewImageStyle() {
+      // 计算属性：一般用于style，class的绑定
       return {
         transform: `scale(${this.imgSize}) rotate(${this.degree}deg)`,
         height: this.heightValue,
@@ -100,12 +109,18 @@ export default {
       this.heightValue = '100%';
       this.marginTop = this.marginLeft = 0;
     },
-    // 点击阴影蒙层，取消预览
-    handleClickBgToClose(e) {
-      console.log(12);
-      if (e.target.classList.contains('ha-image-preview_viewer')) {
+    // 鼠标按下蒙层
+    handlePreviewViewerMouseDown(e) {
+      this.PreviewViewerMouseDown = e;
+    },
+    // 鼠标弹起于蒙层
+    handlePreviewViewerMouseUp(e) {
+      const flag1 = this.PreviewViewerMouseDown.target.classList.contains('ha-image-preview_viewer');
+      const flag2 = e.target.classList.contains('ha-image-preview_viewer');
+      if (flag1 && flag2) { // 判断鼠标按下，和弹起两个时刻是否作用在同一个目标元素上
         this.$emit('close');
       }
+      this.$refs.preview_viewer.onmousemove = null;
     },
     // 恢复图片原有尺寸
     handleOriginalSize() {
@@ -120,15 +135,11 @@ export default {
       this.clientY = e.clientY;
       const marginTop = this.marginTop; // 鼠标按下之时，记录当前图片的位置信息。
       const marginLeft = this.marginLeft;
-      this.$refs.previewImage.onmousemove = (ev) => {
+      this.$refs.preview_viewer.onmousemove = (ev) => {
         ev.stopPropagation();
         this.marginTop = ev.clientY - this.clientY + marginTop;
         this.marginLeft = ev.clientX - this.clientX + marginLeft;
       };
-    },
-    handlePreviewImageMouseUp(e) {
-      e.stopPropagation();
-      this.$refs.previewImage.onmousemove = null;
     }
   }
 };
