@@ -1,10 +1,10 @@
 <template>
   <div class="ha-image-preview">
-    <img :src="url" alt="" @click.stop="handleShowPreview" />
+    <img :src="urlData" alt="" @click.stop="handleShowPreview" />
     <transition name="slide-fade">
       <div v-if="isShowImg" class="ha-image-preview_wrapper">
         <div class="ha-image-preview_mask"></div>
-        <Preview @close="handleClosePreview" />
+        <Preview @close="handleClosePreview" @switch-image="handleSwitch" :currentImg="this.previewSrcList[this.imgeIndex]" />
       </div>
     </transition>
   </div>
@@ -37,11 +37,17 @@ export default {
     isMouseWheel: {
       type: Boolean,
       default: false
+    },
+    previewSrcList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      isShowImg: false
+      isShowImg: false,
+      urlData: this.url,
+      imgeIndex: this.previewSrcList.findIndex(item => item === this.url)
     };
   },
   components: {
@@ -57,6 +63,15 @@ export default {
       this.isShowImg = false;
       const bodyDOM = document.getElementsByTagName('body')[0];
       bodyDOM.style.overflow = 'visible';
+    },
+    handleSwitch(data) {
+      this.imgeIndex = this.imgeIndex + data;
+      if (this.imgeIndex < 0) {
+        this.imgeIndex = this.previewSrcList.length - 1;
+      }
+      if (this.imgeIndex > this.previewSrcList.length - 1) {
+        this.imgeIndex = 0;
+      }
     }
   }
 };

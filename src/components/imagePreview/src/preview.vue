@@ -6,6 +6,8 @@
     <div class="iconfont ha-image-preview_close" @click.stop="$emit('close')">
       &#xe724;
     </div>
+    <div class="iconfont ha-image-preview_arrow left-arrow" @click="() => handleSwitch(-1)">&#xe660;</div>
+    <div class="iconfont ha-image-preview_arrow right-arrow" @click="() => handleSwitch(1)">&#xe65f;</div>
     <div
       class="ha-image-preview_viewer"
       @mouseup.stop="handlePreviewViewerMouseUp"
@@ -14,7 +16,7 @@
       draggable="false"
     >
       <img
-        :src="childProp.url"
+        :src="currentImg"
         alt=""
         :style="previewImageStyle"
         ref="previewImage"
@@ -43,6 +45,12 @@ export default {
     ToolBar
   },
   inject: ['childProp'],
+  props: {
+    currentImg: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       imgSize: 1, // 图片默认大小
@@ -140,6 +148,9 @@ export default {
         this.marginTop = ev.clientY - this.clientY + marginTop;
         this.marginLeft = ev.clientX - this.clientX + marginLeft;
       };
+    },
+    handleSwitch(data) {
+      this.$emit('switch-image', data);
     }
   }
 };
@@ -177,6 +188,28 @@ export default {
   img {
     transition: transform 0.3s ease 0s;
     cursor: move;
+  }
+  .ha-image-preview_arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: #606266;
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+  }
+  .right-arrow{
+    right: 40px;
+  }
+  .left-arrow{
+    left: 40px;
   }
 }
 </style>
